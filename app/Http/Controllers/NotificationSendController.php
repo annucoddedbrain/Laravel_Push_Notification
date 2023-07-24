@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
+// use App\Models\User;
+use App\Services\FCMService;
+use App\Http\Controllers\Controller;
+
+
 class NotificationSendController extends Controller
 {
     public function updateDeviceToken(Request $request)
@@ -25,7 +30,6 @@ class NotificationSendController extends Controller
         $url = 'https://fcm.googleapis.com/fcm/send';
 
         $FcmToken = User::whereNotNull('device_token')->pluck('device_token')->all();
-        
 
         $serverKey = 'AAAAmREpdwM:APA91bGKptuHst891540YlY2yKqn8O8krKms6KbWfc7UokM9UVQDRKGhD0sXtE-HwBX47K0S1c8BZhFAiwk3qQvtX33BS1lDSP_MwOC86TDsfzFYWjmQZC-JnjkkdPLeyUGW6Rdw8DrY'; // ADD SERVER KEY HERE PROVIDED BY FCM
     
@@ -64,4 +68,23 @@ class NotificationSendController extends Controller
         // FCM response
         dd($result);
     }
+
+
+    public function sendNotificationrToUser(Request $request)
+    {
+        
+        $id = $request->id;
+        $id = 1;
+       // get a user to get the fcm_token that already sent.               from mobile apps 
+       $user = User::findOrFail($id);
+        FCMService::send( $user->fcm_token,
+            [
+                'title' => 'your title',
+                'body' => 'your body',
+                // 'image' => $image_url
+            ]
+        );
+    }
+
+
 }

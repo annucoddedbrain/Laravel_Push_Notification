@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->text('device_token')->nullable(); // Add device token in users migration file.
+            $table->string('fcm_token')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
