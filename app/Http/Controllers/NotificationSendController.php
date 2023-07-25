@@ -74,14 +74,13 @@ class NotificationSendController extends Controller
     {
         
         $id = $request->id;
-        $id = 1;
-       // get a user to get the fcm_token that already sent.               from mobile apps 
+        $id = 1;   // get a user to get the fcm_token that already sent from mobile apps 
        $user = User::findOrFail($id);
         FCMService::send( $user->fcm_token,
             [
                 'title' => 'your title',
                 'body' => 'your body',
-                // 'image' => $image_url
+                'image' => "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwpAR8_1q4EQ8EAt7QWIT_OT3It4VHUqllpw&usqp=CAU"
             ]
         );
     }
